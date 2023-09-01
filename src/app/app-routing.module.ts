@@ -4,6 +4,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { FormComponent } from './components/form/form.component';
 import { ViewProfileComponent } from './pages/view-profile/view-profile.component';
 
+
+//Establezco las rutas de los componentes
+
 const routes: Routes = [
   {path: "", pathMatch: 'full', redirectTo: 'home'},
   {path: "home", component: HomeComponent},
