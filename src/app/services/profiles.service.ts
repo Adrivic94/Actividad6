@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { lastValueFrom } from 'rxjs'
-import { UserInfo } from '../interfaces/user-info.interface';
 import { UserData } from '../interfaces/profile.UserData';
 
 @Injectable({
@@ -23,7 +22,6 @@ getAll(): Promise<UserData> {
 
 //Crep la función getById para obtener un id en concreto
 getById(_id: string): Promise<UserData> {
-  return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}${_id}`))
-}
-
+  return lastValueFrom(this.httpClient.get<UserData>(`${this.baseUrl}${_id}`))
+  }
 }

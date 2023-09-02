@@ -1,5 +1,8 @@
-<div class="card shadow"> 
+<div class="card shadow p-4"> 
     <h3 class="card-title">{{miProfile?.first_name}}</h3>
-    <p> </p>
+    <div class="flex-column">
+        <a class="btn btn-light" [routerLink]="['/user', miProfile?._id]">Ver detalle</a>
+        <a class="btn btn-warning">Actualizar</a>
+        <a class="btn btn-danger">Borrar</a>
+    </div>
   </div>
-  

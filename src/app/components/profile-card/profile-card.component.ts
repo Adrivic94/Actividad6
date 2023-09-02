@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { UserData } from 'src/app/interfaces/profile.UserData';
 import { UserInfo } from 'src/app/interfaces/user-info.interface';
 
 @Component({
