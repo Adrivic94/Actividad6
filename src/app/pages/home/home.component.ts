@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserInfo } from 'src/app/interfaces/user-info.interface';
 import { ProfilesService } from 'src/app/services/profiles.service';
 
@@ -8,18 +8,20 @@ import { ProfilesService } from 'src/app/services/profiles.service';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   arrProfiles: UserInfo[] = [];
-  //Inyecto el servicio
-  profilesService = inject(ProfilesService);
+
+  constructor(private profilesService: ProfilesService) { }
+
   ngOnInit(): void {
-    //Llamo al servicio para obtener todos los perfiles
+    // Llamo al servicio para obtener todos los perfiles
     this.profilesService.getAll()
-    .then((response) =>{
-      this.arrProfiles = response.results;
-    }) //Resolve
-    .catch( (error) => {console.log("Error");
-    } ) //Reject
+      .then((response) => {
+        this.arrProfiles = response.results;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   } 
 }

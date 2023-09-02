@@ -1,3 +1,9 @@
-<p *ngFor="let UserInfo of arrProfiles">
-    {{UserInfo?.first_name}}
-</p>
+<section class="container mt-3">
+    <div class="row g-3">
+      <article class="col-12 col-md-6 col-lg-4" *ngFor="let userInfo of arrProfiles">
+          <app-profile-card [miProfile]="userInfo"></app-profile-card>
+      </article>
+    </div>
+  </section>
+  
+
