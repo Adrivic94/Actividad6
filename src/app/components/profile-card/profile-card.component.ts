@@ -27,7 +27,7 @@ export class ProfileCardComponent {
       this.router.navigate(['/home']);
     } else {
       alert("Algo ha fallado")
-      console.log(response)
+      console.error("No se pudo borrar el perfil.")
     }
   }
 }
