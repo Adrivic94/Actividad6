@@ -46,10 +46,10 @@ export class FormComponent {
       //Significa que tiene una ID, entonces actualizamos
       let response = await this.profileService.updateProfile(this.profileForm.value);
       if (response._id){
-        alert("Objeto actualizado correctamente")
+        alert("Perfil actualizado correctamente")
         this.router.navigate(['/home'])
       } else {
-       alert("Error al actualizar el post");
+       alert("Error al actualizar el perfil");
         }
     }else{
       //Significa que insertamos un nuevo perfil
@@ -63,6 +63,4 @@ export class FormComponent {
       }
     }
   }
-
-  
 }

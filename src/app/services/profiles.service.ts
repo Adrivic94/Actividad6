@@ -38,7 +38,7 @@ insert(formValue: any): Promise<UserInfo>{
   } 
 
 // Creo la función update
-updateProfile(formValue: UserInfo): Promise<any> {
+  updateProfile(formValue: UserInfo): Promise<any> {
   return lastValueFrom(this.httpClient.put(`${this.baseUrl}${formValue._id}`, formValue));
 }
 }

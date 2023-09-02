@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/interfaces/user-info.interface';
 import { ProfilesService } from 'src/app/services/profiles.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-view-profile',
@@ -26,7 +27,7 @@ export class ViewProfileComponent {
     });
   }
 
-  //Crearemos la función deletePost
+  //Crearemos la función deleteProfile
   async deleteProfile(_id: string): Promise<void> {
     alert("¿Estás seguro de querer borrar este post?")
     let response = await this.profileService.delete(_id);
@@ -37,6 +38,15 @@ export class ViewProfileComponent {
       alert("Ha habido un error")
     }
   }
-
   
-}
+  //Creamos la función updateProfile
+  async updateProfile(formValue: UserInfo): Promise<void> {
+    try {
+      let response = await this.profileService.updateProfile(formValue);
+      alert("Perfil actualizado correctamente");
+      this.oneProfile = response; 
+    } catch (error) {
+      alert("Ha habido un error al actualizar el perfil");
+    }
+  }
+ }
