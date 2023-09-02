@@ -20,8 +20,17 @@ getAll(): Promise<UserData> {
   return lastValueFrom(this.httpClient.get<any>(this.baseUrl))
 }
 
-//Crep la función getById para obtener un id en concreto
+//Creo la función getById para obtener un id en concreto
 getById(_id: string): Promise<UserData> {
   return lastValueFrom(this.httpClient.get<UserData>(`${this.baseUrl}${_id}`))
   }
+
+
+//Creo la función delete para eliminar un id en concreto
+delete(_id: string): Promise<any>{
+  return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${_id}`))
 }
+
+
+}
+
