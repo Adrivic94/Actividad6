@@ -22,8 +22,8 @@ getAll(): Promise<UserData> {
 }
 
 //Creo la función getById para obtener un id en concreto
-getById(_id: string): Promise<UserData> {
-  return lastValueFrom(this.httpClient.get<UserData>(`${this.baseUrl}${_id}`));
+getById(_id: string): Promise<UserInfo> {
+  return lastValueFrom(this.httpClient.get<UserInfo>(`${this.baseUrl}${_id}`));
   }
 
 
@@ -36,5 +36,10 @@ delete(_id: string): Promise<any>{
 insert(formValue: any): Promise<UserInfo>{
   return lastValueFrom(this.httpClient.post<UserInfo>(this.baseUrl, formValue));
   } 
+
+// Creo la función update
+updateProfile(formValue: UserInfo): Promise<any> {
+  return lastValueFrom(this.httpClient.put(`${this.baseUrl}${formValue._id}`, formValue));
+}
 }
 

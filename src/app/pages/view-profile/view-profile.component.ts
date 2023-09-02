@@ -34,8 +34,9 @@ export class ViewProfileComponent {
       alert("Perfil borrado correctamente")
       this.router.navigate(['/home'])
     } else {
-      
+      alert("Ha habido un error")
     }
   }
 
+  
 }
