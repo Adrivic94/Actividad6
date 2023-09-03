@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilesService } from 'src/app/services/profiles.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -41,27 +42,29 @@ export class FormComponent {
     })
   }
 
-  async getDataForm(): Promise <void> {
-    if(this.profileForm.value._id){
-      //Significa que tiene una ID, entonces actualizamos
+  async getDataForm(): Promise<void> {
+    if (this.profileForm.value._id) {
+      // Significa que tiene una ID, entonces actualizamos
       let response = await this.profileService.updateProfile(this.profileForm.value);
-      if (response._id){
-        alert("Perfil actualizado correctamente")
-        this.router.navigate(['/home'])
+      if (response._id) {
+        Swal.fire('Perfil actualizado correctamente', '', 'success').then(() => {
+          this.router.navigate(['/home']);
+        });
       } else {
         console.log(response);
-       alert("Error al actualizar el perfil");
-        }
-    }else{
-      //Significa que insertamos un nuevo perfil
+        Swal.fire('Error al actualizar el perfil', '', 'error');
+      }
+    } else {
+      // Significa que insertamos un nuevo perfil
       let response = await this.profileService.insert(this.profileForm.value);
-      if (response.id)
-      {
-        alert("Perfil creado correctamente")
-        this.router.navigate(['/home'])
+      if (response.id) {
+        Swal.fire('Perfil creado correctamente', '', 'success').then(() => {
+          this.router.navigate(['/home']);
+        });
       } else {
-        alert("Ha habido un error")
+        Swal.fire('Ha habido un error', '', 'error');
       }
     }
   }
+  
 }

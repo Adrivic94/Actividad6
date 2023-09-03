@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/interfaces/user-info.interface';
 import { ProfilesService } from 'src/app/services/profiles.service';
 import { lastValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-profile',
@@ -27,15 +28,26 @@ export class ViewProfileComponent {
     });
   }
 
-  //Crearemos la función deleteProfile
+  //Crearemos la función deleteProfile y la mopdifico con Sweet Alert
   async deleteProfile(_id: string): Promise<void> {
-    alert("¿Estás seguro de querer borrar este post?")
-    let response = await this.profileService.delete(_id);
-    if  (response){
-      alert("Perfil borrado correctamente")
-      this.router.navigate(['/home'])
-    } else {
-      alert("Ha habido un error")
+    const confirmDelete = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡No podrás deshacer esta acción!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, borrarlo',
+      cancelButtonText: 'Cancelar',
+    });
+  
+    if (confirmDelete.isConfirmed) {
+      let response = await this.profileService.delete(_id);
+      if (response) {
+        Swal.fire('Borrado', 'El perfil ha sido eliminado.', 'success');
+        this.router.navigate(['/home']);
+      } else {
+        Swal.fire('Error', 'Algo ha fallado', 'error');
+        console.error('No se pudo borrar el perfil.');
+      }
     }
   }
   
