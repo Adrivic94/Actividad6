@@ -32,7 +32,7 @@ export class FormComponent {
       //Lleno de nuevo el formulario
       this.profileForm = new FormGroup ({
         //Añado el id para poderse actualizar
-        _id: new FormControl(response.id, []),
+        _id: new FormControl(response._id, []),
         first_name: new FormControl(response.first_name,[]),
         last_name: new FormControl(response.last_name,[]),
         email: new FormControl(response.email,[]),
@@ -49,6 +49,7 @@ export class FormComponent {
         alert("Perfil actualizado correctamente")
         this.router.navigate(['/home'])
       } else {
+        console.log(response);
        alert("Error al actualizar el perfil");
         }
     }else{
