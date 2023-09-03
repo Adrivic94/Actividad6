@@ -1,5 +1,5 @@
 <section class="container mt-3">
-<h1> NUEVO USUARIO</h1>
+    <h1>{{ updatingUser() ? 'ACTUALIZAR USUARIO' : 'NUEVO USUARIO' }}</h1>
     <form [formGroup]="profileForm" (ngSubmit)="getDataForm()">
         <div>
             <label for="first_name">Nombre usuario</label>
@@ -27,6 +27,6 @@
             <p class="error" *ngIf="checkControl('image', 'pattern')">La URL de la imagen tiene formato incorrecto</p>
         </div>
 
-        <input type="submit" class="btn btn-danger mt-4" value="Guardar">
+        <input type="submit" class="btn btn-danger mt-4" [value]="updatingUser() ? 'Actualizar' : 'Guardar'">
     </form>
 </section>

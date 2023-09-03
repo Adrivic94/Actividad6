@@ -24,11 +24,17 @@ export class FormComponent {
     }, []);
   }
 
+  // Creo un método que me avise si se está actualizando el perfil mirando si encuentra un _id
+  updatingUser(): boolean {
+    const idControl = this.profileForm.get('_id');
+    return idControl ? !!idControl.value : false;
+  }
+  
   //Creo la función check control para que compruebe si los campos son correctos
   checkControl(formcontrolName: string, validator: string): boolean | undefined {
     return this.profileForm.get(formcontrolName)?.hasError(validator) && this.profileForm.get(formcontrolName)?.touched
   }
-  
+
   ngOnInit() : void {
     //Capturo la ruta activa para el updateProfile
     this.activatedRoute.params.subscribe(async(params:any) => {
@@ -75,6 +81,4 @@ export class FormComponent {
       Swal.fire('Por favor, complete el formulario correctamente', '', 'error');
     }
   }
-  
-  
 }
