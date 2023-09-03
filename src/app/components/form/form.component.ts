@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfilesService } from 'src/app/services/profiles.service';
 import Swal from 'sweetalert2';
@@ -17,13 +17,18 @@ export class FormComponent {
 
   constructor() {
     this.profileForm = new FormGroup ({
-      first_name: new FormControl("",[]),
-      last_name: new FormControl("",[]),
-      email: new FormControl("",[]),
-      image: new FormControl("",[]),
+      first_name: new FormControl("",[Validators.required]),
+      last_name: new FormControl("",[Validators.required]),
+      email: new FormControl("",[Validators.required, Validators.pattern(/.*@.*/)]), //He tenido que simplificar el pattern de email porque sino no coge el de peticiones.online
+      image: new FormControl("",[Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
     }, []);
   }
 
+  //Creo la función check control para que compruebe si los campos son correctos
+  checkControl(formcontrolName: string, validator: string): boolean | undefined {
+    return this.profileForm.get(formcontrolName)?.hasError(validator) && this.profileForm.get(formcontrolName)?.touched
+  }
+  
   ngOnInit() : void {
     //Capturo la ruta activa para el updateProfile
     this.activatedRoute.params.subscribe(async(params:any) => {
@@ -34,37 +39,42 @@ export class FormComponent {
       this.profileForm = new FormGroup ({
         //Añado el id para poderse actualizar
         _id: new FormControl(response._id, []),
-        first_name: new FormControl(response.first_name,[]),
-        last_name: new FormControl(response.last_name,[]),
-        email: new FormControl(response.email,[]),
-        image: new FormControl(response.image,[]),
+        first_name: new FormControl(response.first_name,[Validators.required]),
+        last_name: new FormControl(response.last_name,[Validators.required]),
+        email: new FormControl(response.email,[Validators.required, Validators.pattern(/.*@.*/)]), //He tenido que simplificar el pattern de email porque sino no coge el de peticiones.online
+        image: new FormControl(response.image,[Validators.required, Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
       }, []);
     })
   }
 
   async getDataForm(): Promise<void> {
-    if (this.profileForm.value._id) {
-      // Significa que tiene una ID, entonces actualizamos
-      let response = await this.profileService.updateProfile(this.profileForm.value);
-      if (response._id) {
-        Swal.fire('Perfil actualizado correctamente', '', 'success').then(() => {
-          this.router.navigate(['/home']);
-        });
+    if (this.profileForm.valid) {
+      if (this.profileForm.value._id) {
+        // Significa que tiene una ID, entonces actualizamos
+        let response = await this.profileService.updateProfile(this.profileForm.value);
+        if (response._id) {
+          Swal.fire('Perfil actualizado correctamente', '', 'success').then(() => {
+            this.router.navigate(['/home']);
+          });
+        } else {
+          console.log(response);
+          Swal.fire('Error al actualizar el perfil', '', 'error');
+        }
       } else {
-        console.log(response);
-        Swal.fire('Error al actualizar el perfil', '', 'error');
+        // Significa que insertamos un nuevo perfil
+        let response = await this.profileService.insert(this.profileForm.value);
+        if (response.id) {
+          Swal.fire('Perfil creado correctamente', '', 'success').then(() => {
+            this.router.navigate(['/home']);
+          });
+        } else {
+          Swal.fire('Ha habido un error', '', 'error');
+        }
       }
     } else {
-      // Significa que insertamos un nuevo perfil
-      let response = await this.profileService.insert(this.profileForm.value);
-      if (response.id) {
-        Swal.fire('Perfil creado correctamente', '', 'success').then(() => {
-          this.router.navigate(['/home']);
-        });
-      } else {
-        Swal.fire('Ha habido un error', '', 'error');
-      }
+      Swal.fire('Por favor, complete el formulario correctamente', '', 'error');
     }
   }
+  
   
 }

@@ -1,5 +1,8 @@
-<div class="card shadow p-4"> 
-    <h3 class="card-title">{{miProfile?.first_name}}</h3>
+<div class="card shadow p-4 text-center"> 
+    <div>
+        <img src="{{miProfile?.image}}" alt="miProfile?._id.image" class="rounded-circle w-75">
+    </div>
+    <h3 class="card-title">{{miProfile?.first_name}} {{miProfile?.last_name}}</h3>
     <div class="flex-column">
         <a class="btn btn-light" [routerLink]="['/user', miProfile?._id]">Ver detalle</a>
         <a class="btn btn-warning" [routerLink]="['/updateuser', miProfile?._id]">Actualizar</a>
