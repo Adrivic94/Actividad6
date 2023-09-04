@@ -26,6 +26,12 @@
         <div *ngIf="checkControl('image', 'required')" class="text-danger">Este campo es requerido</div>
         <div *ngIf="checkControl('image', 'pattern')" class="text-danger">La URL de la imagen tiene formato incorrecto</div>
       </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" placeholder="Introduzca la contraseña del usuario" class="form-control" formControlName="password" id="password">
+        <div *ngIf="checkControl('password', 'required')" class="text-danger">Este campo es requerido</div>
+      </div>
   
       <button type="submit" class="btn btn-outline-secondary">{{ updatingUser() ? 'Actualizar' : 'Guardar' }}</button>
     </form>

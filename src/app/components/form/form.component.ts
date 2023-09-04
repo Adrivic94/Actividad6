@@ -20,7 +20,8 @@ export class FormComponent {
       first_name: new FormControl("",[Validators.required]),
       last_name: new FormControl("",[Validators.required]),
       email: new FormControl("",[Validators.required, Validators.pattern(/.*@.*/)]), //He tenido que simplificar el pattern de email porque sino no coge el de peticiones.online
-      image: new FormControl("",[Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
+      image: new FormControl("",[Validators.required, Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
+      password: new FormControl("",[Validators.required]),
     }, []);
   }
 
@@ -29,29 +30,31 @@ export class FormComponent {
     const idControl = this.profileForm.get('_id');
     return idControl ? !!idControl.value : false;
   }
-  
+
   //Creo la función check control para que compruebe si los campos son correctos
   checkControl(formcontrolName: string, validator: string): boolean | undefined {
     return this.profileForm.get(formcontrolName)?.hasError(validator) && this.profileForm.get(formcontrolName)?.touched
   }
 
-  ngOnInit() : void {
-    //Capturo la ruta activa para el updateProfile
-    this.activatedRoute.params.subscribe(async(params:any) => {
+  ngOnInit(): void {
+    // Capturo la ruta activa para el updateProfile
+    this.activatedRoute.params.subscribe(async (params: any) => {
       let _id: string = String(params._id);
-      //Hago una petición al servicio para llenar el funcionario con getById y tener todos los datos del post
+      // Hago una petición al servicio para llenar el funcionario con getById y tener todos los datos del post
       let response = await this.profileService.getById(_id);
-      //Lleno de nuevo el formulario
-      this.profileForm = new FormGroup ({
-        //Añado el id para poderse actualizar
+      // Lleno de nuevo el formulario
+      this.profileForm = new FormGroup({
+        // Añado el id para poderse actualizar
         _id: new FormControl(response._id, []),
-        first_name: new FormControl(response.first_name,[Validators.required]),
-        last_name: new FormControl(response.last_name,[Validators.required]),
-        email: new FormControl(response.email,[Validators.required, Validators.pattern(/.*@.*/)]), //He tenido que simplificar el pattern de email porque sino no coge el de peticiones.online
-        image: new FormControl(response.image,[Validators.required, Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
+        first_name: new FormControl(response.first_name, [Validators.required]),
+        last_name: new FormControl(response.last_name, [Validators.required]),
+        email: new FormControl(response.email, [Validators.required, Validators.pattern(/.*@.*/)]),
+        image: new FormControl(response.image, [Validators.required, Validators.pattern(/^(https?:\/\/[\w.-]+(\.[\w.-]+)+\S*(\?[A-Za-z0-9_.%=&]*)?)$/)]),
+        password: new FormControl(response.password, [Validators.required]),
       }, []);
     })
   }
+  
 
   async getDataForm(): Promise<void> {
     if (this.profileForm.valid) {
