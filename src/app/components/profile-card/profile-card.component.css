@@ -1,0 +1,10 @@
+/* Estilo para los elementos SVG */
+.btn svg {
+    vertical-align: middle; /* Alineación vertical para centrar el SVG */
+  }
+  
+  /* Alinea verticalmente el texto junto al SVG */
+  .btn .btn-text {
+    vertical-align: middle;
+  }
+  

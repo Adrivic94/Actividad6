@@ -1,0 +1,9 @@
+/* Estilo para el enlace hover */
+.navbar-nav .nav-item .nav-link:hover {
+  color: tomato; /* Cambia el color de texto a rojo */
+  transition: color 0.3s; /* Agrega una transición de color suave */
+}
+/* Estilo para el enlace activo */
+.nav-link.active {
+    color: grey;
+    font-weight: bold;}
