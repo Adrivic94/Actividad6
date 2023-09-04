@@ -2,3 +2,9 @@
     border-right: 2px solid black;
     height: 100%;
   }
+/* Media query para resoluciones bajas (por ejemplo, 768px o menos) */
+@media screen and (max-width: 768px) {
+  .border-right{
+    border-right: none;
+  }
+}

@@ -8,6 +8,11 @@
     display: block;
   }
 
+  .btn{
+    border: none;
+    margin-top: 1rem;
+  }
+
 
 
   
